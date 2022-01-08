@@ -1,0 +1,10 @@
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Debug\NorthStarModBrowser.exe.config
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Debug\NorthStarModBrowser.exe
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Debug\NorthStarModBrowser.pdb
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.csprojAssemblyReference.cache
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.Form1.resources
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.Properties.Resources.resources
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.csproj.GenerateResource.cache
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.csproj.CoreCompileInputs.cache
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.exe
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.pdb
