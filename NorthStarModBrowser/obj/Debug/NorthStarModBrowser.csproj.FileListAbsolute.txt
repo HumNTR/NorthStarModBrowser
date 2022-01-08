@@ -8,3 +8,6 @@ C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\Nor
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.csproj.CoreCompileInputs.cache
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.exe
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.pdb
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Debug\Octokit.dll
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Debug\Octokit.xml
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.csproj.CopyComplete
