@@ -1,2 +1,2 @@
-Rgb Mod;69238566
-Speed is Life;445016104
+Custom.Crosshairs;MysteriousRSA;https://github.com/MysteriousRSA/Custom.Crosshairs;447625188;0
+The.Pilot;Bolexle;https://github.com/Bolexle/The.Pilot;446763132;0

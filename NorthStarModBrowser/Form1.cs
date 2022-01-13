@@ -12,33 +12,55 @@ using System.IO.Compression;
 using System.Diagnostics;
 using Octokit;
 
+
+
+
 namespace NorthStarModBrowser
 {
+    class ModClass
+    {
+       public string Name;
+        public string Owner;
+        public long Id;
+        public string Link;
+        public int Mode;
+    }
     public partial class Form1 : Form
     {
-
+        ModClass[] Mods;
         string NorthStarModDirectory = "D:/origin/Titanfall2/R2Northstar/mods";
-        string tempLocation;
-        string[] names;
-        string[] GitNames;
+        string ProgramLocation= "D:/origin/Titanfall2/Norhtstarmodbrowser/";
         public Form1()
         {
+            if (!System.IO.Directory.Exists(ProgramLocation)) System.IO.Directory.CreateDirectory(ProgramLocation);
             InitializeComponent();
             openFileDialog1.Filter = "NorthstarModFiles (*.nmod)|*.nmod";
-            tempLocation = Path.GetTempPath()+"NorthStarModBrowser";
-            Console.WriteLine(tempLocation);
+            Console.WriteLine(ProgramLocation);
+            DownloadList();
             createList();
         }
-        //this part is taken from haakonfp
-        public async Task<Release> getReleases(string gitName)
+        private void DownloadList()
         {
-            String workspaceName = "WishaWoshi";
-            String repositoryName = "Speed-Is-Life";
-
+            using (System.Net.WebClient wc = new System.Net.WebClient())
+            {
+                wc.Headers.Add("user-agent", "Anything");
+                try
+                {
+                    wc.DownloadFile("https://raw.githubusercontent.com/HumNTR/NorthStarModBrowser/main/NorthStarModBrowser/Mods.txt", ProgramLocation + "ModList.txt");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+        }
+        //this part is taken from haakonfp
+        public async Task<Release> getReleases(long gitId)
+        {
             var client = new GitHubClient(new ProductHeaderValue("HumNTR"));
 
             // Retrieve a List of Releases in the Repository, and get latest using [0]-subscript
-            var latest =   client.Repository.Release.GetAll(445016104).Result[0];
+            var latest =   client.Repository.Release.GetAll(gitId).Result[0];
             
             return latest;
         }
@@ -48,24 +70,25 @@ namespace NorthStarModBrowser
             Console.WriteLine(openFileDialog1.FileName);
             ZipFile.ExtractToDirectory(openFileDialog1.FileName, NorthStarModDirectory);
         }
-        int ButtonCount=0;
         private void createList()
         {
             int count=0;
-           IEnumerable<string> lines = File.ReadLines("C:/Users/HumN/source/repos/NorthStarModBrowser/Mods.txt");
-            names = new string[lines.Count()];
-            GitNames = new string[lines.Count()];
+           IEnumerable<string> lines = File.ReadLines(ProgramLocation + "ModList.txt");
+            Mods = new ModClass[lines.Count()];
             foreach (string s in lines)
             {
                string[] splits= s.Split(';');
-                names[count] = splits[0];
-                GitNames[count] = splits[1];
+                Mods[count].Name = splits[0];
+                Mods[count].Owner = splits[1];
+                Mods[count].Link = splits[2];
+                Mods[count].Id = long.Parse(splits[3]);
+                Mods[count].Mode =int.Parse(splits[4]);
                 count++;
             }
             for(int i =0;i< count;i++)
             {
                 Button but = new Button();
-                but.Text = names[i];
+                but.Text = Mods[i].Name;
                 but.Name = i.ToString();
                 but.Size = new Size(100, 20);
                 but.Location = new Point(10, 100 + i * 20);
@@ -78,7 +101,9 @@ namespace NorthStarModBrowser
         private void Button_Click(object sender, EventArgs e)
         {
             Button but = (Button)sender;
-            string url =getReleases(GitNames[int.Parse(but.Name)]).Result.ZipballUrl;
+            string url;
+            if (Mods[int.Parse(but.Name)].Mode == 0) url = getReleases(Mods[int.Parse(but.Name)].Id).Result.ZipballUrl;
+            else url = Mods[int.Parse(but.Name)].Link;
             downloadAndInstallMod(url);
         }
         private async void downloadAndInstallMod(string url)
@@ -86,9 +111,12 @@ namespace NorthStarModBrowser
 
             System.Net.WebClient webClient = new System.Net.WebClient();
             webClient.Headers.Add("user-agent", "Anything");
-            await webClient.DownloadFileTaskAsync(new Uri(url), tempLocation + "/tobeunzipped.zip") ;
-            Console.WriteLine(tempLocation + "/tobeunzipped.zip");
+            Console.WriteLine(ProgramLocation + url.Substring(29).Replace('/', '-'));
+            
+            await webClient.DownloadFileTaskAsync(new Uri(url), ProgramLocation + url.Substring(29).Replace('/','-')+".zip");
+            ZipFile.ExtractToDirectory(ProgramLocation + url.Substring(29).Replace('/', '-') + ".zip",NorthStarModDirectory);
 
         }
+
     }
 }
