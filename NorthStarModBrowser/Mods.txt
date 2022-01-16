@@ -1,2 +1,2 @@
-Custom.Crosshairs;MysteriousRSA;https://github.com/MysteriousRSA/Custom.Crosshairs;447625188;0
+alFa-Northstar-mods;FrostySn0men;https://github.com/FrostySn0men/alFa-Northstar-mods;445589348;0
 The.Pilot;Bolexle;https://github.com/Bolexle/The.Pilot;446763132;0
