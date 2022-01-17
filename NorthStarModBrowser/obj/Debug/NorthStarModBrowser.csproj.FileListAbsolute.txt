@@ -10,4 +10,4 @@ C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\Nor
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Debug\Octokit.dll
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Debug\Octokit.xml
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.csproj.CopyComplete
-C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.ModClass.resources
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Debug\NorthStarModBrowser.Form1.resources

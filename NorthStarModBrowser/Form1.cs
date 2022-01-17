@@ -13,28 +13,13 @@ using System.Diagnostics;
 using Octokit;
 
 
-/*
-class ModClass
-{
-    public string Name = "";
-    public string Owner = "";
-    public long Id = 0;
-    public string Link = "";
-    public int Mode = 0;
-    public int version = 0;
-    public int x = 0, y = 0;
-}
-*/
+
+
 namespace NorthStarModBrowser
 {
     
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-
-        }
-        /*
         ModClass[] Mods;
         string NorthStarModDirectory = "D:/origin/Titanfall2/R2Northstar/mods/";
         string ProgramLocation = "D:/origin/Titanfall2/Norhtstarmodbrowser/";
@@ -101,11 +86,15 @@ namespace NorthStarModBrowser
 
                 Mods[count].Id = long.Parse(splits[3]);
                 Mods[count].Mode = int.Parse(splits[4]);
-                Mods[count].version = getCommitCount(Mods[count].Id);
-                TextBox text = new TextBox();
-                text.Text = Mods[count].version.ToString();
-                text.Size = new Size(100, 20);
+                Mods[count].NewestVersion = getCommitCount(Mods[count].Id);
+                Mods[count].x = 10;
+                Mods[count].y = 100 + count * 20;
+                 System.Windows.Forms.Label text = new System.Windows.Forms.Label();
+                text.Text = Mods[count].NewestVersion.ToString();
+                text.Size = new Size(20, 20);
                 text.Location = new Point(110, 100 + count * 20);
+                text.BackColor = Color.FromArgb(0, 0, 0, 0);
+                text.ForeColor = Color.White;
                 Controls.Add(text);
                 Button but = new Button();
                 but.Text = Mods[count].Name;
@@ -114,16 +103,29 @@ namespace NorthStarModBrowser
                 but.Location = new Point(10, 100 + count * 20);
                 but.Click += new EventHandler(Button_Click);
                 Controls.Add(but);
+                Mods[count].button = but;
                 count++;
             }
-            foreach (string filepath in System.IO.Directory.GetFiles(NorthStarModDirectory,"nmodinfo.txt",SearchOption.AllDirectories))
+           foreach (string filepath in System.IO.Directory.GetFiles(NorthStarModDirectory,"nmodinfo.txt",SearchOption.AllDirectories))
             {
-                string nameOfTheMod = File.ReadAllLines(filepath)[0];
+                string nameOfTheMod  = File.ReadAllLines(filepath)[0];
+                int CurrentVersion = int.Parse (File.ReadAllLines(filepath)[1]);
                foreach(ModClass modToCheck in Mods)
                 {
                     if (modToCheck.Name==nameOfTheMod)
                     {
-
+                        modToCheck.CurrentVersion = CurrentVersion; //set the version of the mod 
+                        //make a label showing the version of the installed mod
+                        System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
+                        lbl.Text = CurrentVersion.ToString();
+                        lbl.BackColor = Color.Transparent;
+                        lbl.ForeColor = Color.White;
+                        lbl.Size = new Size(20, 20);
+                        lbl.Location = new Point(modToCheck.x + 120, modToCheck.y);
+                        Controls.Add(lbl);
+                        //change the buttons color depending on the versions
+                        if (CurrentVersion == modToCheck.NewestVersion) modToCheck.button.BackColor = Color.Green;
+                        else modToCheck.button.BackColor = Color.Red;               
                     }
                 }
             }
@@ -135,36 +137,14 @@ namespace NorthStarModBrowser
             Button but = (Button)sender;
             downloadAndInstallMod(Mods[ int.Parse(but.Name)]);
         }
-        public void CopyAll(DirectoryInfo source, DirectoryInfo target)
-        {
-            if (source.FullName.ToLower() == target.FullName.ToLower())
-            {
-                return;
-            }
-
-            // Check if the target directory exists, if not, create it.
-            if (Directory.Exists(target.FullName) == false)
-            {
-                Directory.CreateDirectory(target.FullName);
-            }
-
-            // Copy each file into it's new directory.
-            foreach (FileInfo fi in source.GetFiles())
-            {
-                Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
-                fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
-            }
-
-            // Copy each subdirectory using recursion.
-            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
-            {
-                DirectoryInfo nextTargetSubDir =
-                    target.CreateSubdirectory(diSourceSubDir.Name);
-                CopyAll(diSourceSubDir, nextTargetSubDir);
-            }
-        }
+       
         private async void downloadAndInstallMod(ModClass modToInstall)
         {
+            if(modToInstall.NewestVersion== modToInstall.CurrentVersion)
+            {
+              DialogResult dr =  System.Windows.Forms.MessageBox.Show("The currently installed version is up to date download and install the mod anyways", "Already Up To Date", MessageBoxButtons.YesNo);
+                if (dr == DialogResult.No) return;
+            }
 
             //find the link to the mods
             string url,name = modToInstall.Name;
@@ -178,7 +158,7 @@ namespace NorthStarModBrowser
             webClient.Headers.Add("user-agent", "Anything");
             if (System.IO.Directory.Exists(ProgramLocation + name + ".zip")) System.IO.Directory.Delete(ProgramLocation + name + ".zip", true);
             await webClient.DownloadFileTaskAsync(new Uri(url), ProgramLocation + name + ".zip");
-            int version = getCommitCount(modToInstall.Id);
+            
             //extract the mod
             if (System.IO.Directory.Exists(ProgramLocation + name)) System.IO.Directory.Delete(ProgramLocation + name, true);
             ZipFile.ExtractToDirectory(ProgramLocation + name + ".zip", ProgramLocation + name);
@@ -188,14 +168,27 @@ namespace NorthStarModBrowser
             mainModFile = mainModFile.Substring(0, mainModFile.Length - 8);
             if (System.IO.Directory.Exists(NorthStarModDirectory+name)) System.IO.Directory.Delete(NorthStarModDirectory+name,true);
             System.IO.Directory.Move(mainModFile, NorthStarModDirectory+name);
-            File.WriteAllText(NorthStarModDirectory + name + "/nmodinfo.txt",modToInstall.Name+"\n"+ version.ToString());
+            File.WriteAllText(NorthStarModDirectory + name + "/nmodinfo.txt",modToInstall.Name+"\n"+ modToInstall.NewestVersion.ToString());
 
             //remove old files
             System.IO.File.Delete(ProgramLocation + name + ".zip");
             System.IO.Directory.Delete(ProgramLocation + name,true);
 
-        }*/
+        }
+
     }
+    class ModClass
+    {
+        public string Name = "";
+        public string Owner = "";
+        public long Id = 0;
+        public string Link = "";
+        public int Mode = 0;
+        public int NewestVersion = 0,CurrentVersion;
+        public int x = 0, y = 0;
+        public Button button;
+    }
+
 }
 
 
