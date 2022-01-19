@@ -30,7 +30,7 @@ namespace NorthStarModBrowser
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // button1
@@ -41,13 +41,14 @@ namespace NorthStarModBrowser
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(158, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Install From Nmod File";
+            this.button1.Text = "Install From Zip File";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // openFileDialog1
+            // openFileDialog2
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog2.FileName = "openFileDialog2";
+            this.openFileDialog2.Filter = "\"Zip files (*.zip)|*.zip";
             // 
             // Form1
             // 
@@ -67,7 +68,7 @@ namespace NorthStarModBrowser
 
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        public System.Windows.Forms.OpenFileDialog openFileDialog2;
     }
 }
 

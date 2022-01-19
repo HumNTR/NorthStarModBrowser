@@ -28,10 +28,8 @@ namespace NorthStarModBrowser
         {
             if (!System.IO.Directory.Exists(ProgramLocation)) System.IO.Directory.CreateDirectory(ProgramLocation);
             InitializeComponent();
-            openFileDialog1.Filter = "NorthstarModFiles (*.nmod)|*.nmod";
-            Console.WriteLine(ProgramLocation);
             TempLocation = Path.GetTempPath();
-            // DownloadList();
+            DownloadList();
             createList();
         }
         private int getCommitCount(long id)
@@ -67,9 +65,8 @@ namespace NorthStarModBrowser
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
-            Console.WriteLine(openFileDialog1.FileName);
-            ZipFile.ExtractToDirectory(openFileDialog1.FileName, NorthStarModDirectory);
+            openFileDialog2.ShowDialog();
+            if (File.Exists(openFileDialog2.FileName))ZipFile.ExtractToDirectory(openFileDialog2.FileName, NorthStarModDirectory);
         }
         private void createList()
         {
@@ -79,26 +76,30 @@ namespace NorthStarModBrowser
             for (int i = 0; i < lines.Count(); i++)Mods[i] = new ModClass();
             foreach (string s in lines)
             {
+                //read the file and set the mod
                 string[] splits = s.Split(';');
                 Mods[count].Name = splits[0];
                 Mods[count].Owner = splits[1];
                 Mods[count].Link = splits[2];
-
+                Mods[count].ArrayId = count;
                 Mods[count].Id = long.Parse(splits[3]);
                 Mods[count].Mode = int.Parse(splits[4]);
                 Mods[count].NewestVersion = getCommitCount(Mods[count].Id);
                 Mods[count].x = 10;
                 Mods[count].y = 100 + count * 20;
+                // create the newest version label
                  System.Windows.Forms.Label text = new System.Windows.Forms.Label();
                 text.Text = Mods[count].NewestVersion.ToString();
                 text.Size = new Size(20, 20);
                 text.Location = new Point(110, 100 + count * 20);
                 text.BackColor = Color.FromArgb(0, 0, 0, 0);
                 text.ForeColor = Color.White;
+                Mods[count].newestVersionLabel = text;
                 Controls.Add(text);
+                
                 Button but = new Button();
-                but.Text = Mods[count].Name;
-                but.Name = count.ToString();
+                but.Text =Mods[count].Name;
+                but.Name = "i"+count.ToString();
                 but.Size = new Size(100, 20);
                 but.Location = new Point(10, 100 + count * 20);
                 but.Click += new EventHandler(Button_Click);
@@ -122,7 +123,19 @@ namespace NorthStarModBrowser
                         lbl.ForeColor = Color.White;
                         lbl.Size = new Size(20, 20);
                         lbl.Location = new Point(modToCheck.x + 120, modToCheck.y);
+                        modToCheck.currentVersionLabel = lbl;
                         Controls.Add(lbl);
+
+                        // make a delete button
+                        Button butdlt = new Button();
+                        butdlt.Name = "d" + modToCheck.ArrayId;
+                        butdlt.Text = "Delete "+ nameOfTheMod;
+                        butdlt.Size = new Size(100, 20);
+                        butdlt.TextAlign = ContentAlignment.MiddleCenter;
+                        butdlt.Location = new Point(modToCheck.x + 140, modToCheck.y);
+                        butdlt.Click += Button_Click;
+                        modToCheck.ButtonDelete = butdlt;
+                        Controls.Add(butdlt);
                         //change the buttons color depending on the versions
                         if (CurrentVersion == modToCheck.NewestVersion) modToCheck.button.BackColor = Color.Green;
                         else modToCheck.button.BackColor = Color.Red;               
@@ -135,17 +148,35 @@ namespace NorthStarModBrowser
         private void Button_Click(object sender, EventArgs e)
         {
             Button but = (Button)sender;
-            downloadAndInstallMod(Mods[ int.Parse(but.Name)]);
+            ModClass mod = Mods[int.Parse(but.Name.Substring(1))];
+            if (but.Name[0] == 'i')  downloadAndInstallMod(mod);
+            else RemoveMod(mod);
+            
         }
-       
-        private async void downloadAndInstallMod(ModClass modToInstall)
+       private void RemoveMod(ModClass modToRemove)
+        {
+            Directory.Delete(NorthStarModDirectory + modToRemove.Name,true);
+            modToRemove.CurrentVersion = -1;
+            modToRemove.currentVersionLabel.Text = "";
+            Controls.Remove(modToRemove.ButtonDelete);
+        }
+        private  async void downloadAndInstallMod(ModClass modToInstall)
         {
             if(modToInstall.NewestVersion== modToInstall.CurrentVersion)
             {
               DialogResult dr =  System.Windows.Forms.MessageBox.Show("The currently installed version is up to date download and install the mod anyways", "Already Up To Date", MessageBoxButtons.YesNo);
                 if (dr == DialogResult.No) return;
             }
+            // create a loading icon
+            PictureBox pbloading = new PictureBox();
+            pbloading.BackgroundImage = Properties.Resources.Triangles_indicator;
+            pbloading.BackgroundImageLayout = ImageLayout.Stretch;
+            pbloading.BackColor = Color.Transparent;
 
+            pbloading.Location = new Point(modToInstall.x + 140, modToInstall.y);
+            pbloading.Size = new Size(20 , 20);
+            Controls.Add(pbloading);
+            
             //find the link to the mods
             string url,name = modToInstall.Name;
             if (modToInstall.Mode == 0)url = getReleases(modToInstall.Id).Result.ZipballUrl;
@@ -174,6 +205,35 @@ namespace NorthStarModBrowser
             System.IO.File.Delete(ProgramLocation + name + ".zip");
             System.IO.Directory.Delete(ProgramLocation + name,true);
 
+            // create a remove button if it doesnt exists already
+           if( modToInstall.ButtonDelete== null)
+            {
+                // make a delete button
+                Button butdlt = new Button();
+                butdlt.Name = "d" + modToInstall.ArrayId;
+                butdlt.Text = "Delete " + modToInstall;
+                butdlt.Size = new Size(100, 20);
+                butdlt.TextAlign = ContentAlignment.MiddleCenter;
+                butdlt.Location = new Point(modToInstall.x + 140, modToInstall.y);
+                butdlt.Click += Button_Click;
+                modToInstall.ButtonDelete = butdlt;
+                Controls.Add(butdlt);
+            }
+            modToInstall.CurrentVersion = modToInstall.NewestVersion;
+            
+            if(modToInstall.currentVersionLabel== null)
+            {
+                System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
+                lbl.Text = modToInstall.CurrentVersion.ToString();
+                lbl.BackColor = Color.Transparent;
+                lbl.ForeColor = Color.White;
+                lbl.Size = new Size(20, 20);
+                lbl.Location = new Point(modToInstall.x + 120, modToInstall.y);
+                modToInstall.currentVersionLabel = lbl;
+                Controls.Add(lbl);
+            }
+            modToInstall.currentVersionLabel.Text = modToInstall.CurrentVersion.ToString();
+            Controls.Remove(pbloading);
         }
 
     }
@@ -181,12 +241,13 @@ namespace NorthStarModBrowser
     {
         public string Name = "";
         public string Owner = "";
-        public long Id = 0;
+        public long Id = 0,ArrayId;
         public string Link = "";
         public int Mode = 0;
         public int NewestVersion = 0,CurrentVersion;
         public int x = 0, y = 0;
-        public Button button;
+        public Button button,ButtonDelete;
+        public System.Windows.Forms.Label currentVersionLabel, newestVersionLabel;
     }
 
 }
