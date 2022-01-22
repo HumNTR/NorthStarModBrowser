@@ -1,2 +1,8 @@
 alFa-Northstar-mods;FrostySn0men;https://github.com/FrostySn0men/alFa-Northstar-mods;445589348;0
 The.Pilot;Bolexle;https://github.com/Bolexle/The.Pilot;446763132;0
+Admin-Abuse-Mod;x3Karma;https://github.com/x3Karma/Admin-Abuse-Mod/releases/tag/v1.2.2;443071924;0
+Spoons.Bubbles;ASpoonPlaysGames;https://github.com/ASpoonPlaysGames/Spoons.Bubbles;450326954;0
+DJMalachites-Scuffed-Weapons-Mod;DJMalachite;https://github.com/DJMalachite/DJMalachites-Scuffed-Weapons-Mod;441712990;0
+Northstar.Assimilation;JMM889901;https://github.com/JMM889901/Northstar.Assimilation/ ;448362612;0
+Jorb.TGrapple;Jorb333;https://github.com/Jorb333/Jorb.TGrapple/;448946180;0
+Jorb.TThreat;Jorb333;https://github.com/Jorb333/Jorb.TThreat/releases/tag/v1.0.0;449113612;0
