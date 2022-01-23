@@ -58,21 +58,22 @@ namespace NorthStarModBrowser
             // 
             // panel1
             // 
-            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.AutoScroll = true;
             this.panel1.AutoScrollMargin = new System.Drawing.Size(0, 10);
             this.panel1.AutoScrollMinSize = new System.Drawing.Size(0, 10);
             this.panel1.AutoSize = true;
             this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel1.BackColor = System.Drawing.Color.LightCoral;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.panel1.Cursor = System.Windows.Forms.Cursors.Cross;
             this.panel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.panel1.Location = new System.Drawing.Point(2, 77);
+            this.panel1.Location = new System.Drawing.Point(12, 353);
             this.panel1.MaximumSize = new System.Drawing.Size(1000, 120);
+            this.panel1.MinimumSize = new System.Drawing.Size(120, 30);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 20, 7);
-            this.panel1.Size = new System.Drawing.Size(22, 9);
+            this.panel1.Size = new System.Drawing.Size(120, 30);
             this.panel1.TabIndex = 2;
             // 
             // Form1
@@ -98,7 +99,7 @@ namespace NorthStarModBrowser
         private System.Windows.Forms.Button button1;
         public System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Panel panel1;
+        public System.Windows.Forms.Panel panel1;
     }
 }
 
