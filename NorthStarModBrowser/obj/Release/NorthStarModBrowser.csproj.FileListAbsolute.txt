@@ -1,0 +1,13 @@
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Release\NorthStarModBrowser.exe.config
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Release\NorthStarModBrowser.exe
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Release\NorthStarModBrowser.pdb
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Release\Octokit.dll
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\bin\Release\Octokit.xml
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.csprojAssemblyReference.cache
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.Form1.resources
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.Properties.Resources.resources
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.csproj.GenerateResource.cache
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.csproj.CoreCompileInputs.cache
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.csproj.CopyComplete
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.exe
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.pdb

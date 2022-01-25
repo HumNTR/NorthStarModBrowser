@@ -43,51 +43,90 @@ namespace NorthStarModBrowser
             string[] temp = { currentVersion.ToString(), Path.GetDirectoryName(openFileDialog1.FileName) };
             File.WriteAllLines("NorthStarModBrowser.config", temp);
         }
-        public void findTitanfallLocation()
+        public void ReadConfigFile()
         {
-
-            if(File.Exists("NorthStarModBrowser.config"))
+            if (!System.IO.Directory.Exists(NorthStarModDirectory))
             {
-                
-                string[] lines = File.ReadAllLines("NorthStarModBrowser.config");
-                if (lines.Count() < 2)
+                if (File.Exists("NorthStarModBrowser.config"))
                 {
-                    if (!int.TryParse(lines[0], out currentVersion))
+
+                    string[] lines = File.ReadAllLines("NorthStarModBrowser.config");
+                    if (lines.Count() < 2)
                     {
-                        MessageBox.Show("The Config file seems to be corrupt please use the updater to fix it", "Config is corrupt");
-                        System.Environment.Exit(1);
-                    }
-                    useOpenFileDialog();
-                    
-                }
-                else
-                {
-                    if (int.TryParse(lines[0], out currentVersion))
-                    {
-                        TitanfallDir = lines[1];
-                        if (!File.Exists(Path.Combine(TitanfallDir, "Titanfall2.exe"))) useOpenFileDialog();
+                        if (!int.TryParse(lines[0], out currentVersion))
+                        {
+                            MessageBox.Show("The Config file seems to be corrupt please use the updater to fix it", "Config is corrupt");
+                            System.Environment.Exit(1);
+                        }
+                        useOpenFileDialog();
+
                     }
                     else
                     {
-                        MessageBox.Show("The Config file seems to be corrupt please use the updater to fix it", "Config is corrupt");
-                        System.Environment.Exit(1);
+                        if (int.TryParse(lines[0], out currentVersion))
+                        {
+                            TitanfallDir = lines[1];
+                            if (!File.Exists(Path.Combine(TitanfallDir, "Titanfall2.exe"))) useOpenFileDialog();
+                        }
+                        else
+                        {
+                            MessageBox.Show("The Config file seems to be corrupt please use the updater to fix it", "Config is corrupt");
+                            System.Environment.Exit(1);
+                        }
                     }
-                }
 
-                if (File.Exists(Path.Combine(TitanfallDir, "Titanfall2.exe"))) {
+                    if (File.Exists(Path.Combine(TitanfallDir, "Titanfall2.exe")))
+                    {
 
-                    NorthStarModDirectory = Path.Combine(TitanfallDir, NorthStarModDirectory);
-                    ProgramLocation = Path.Combine(TitanfallDir, ProgramLocation);
+                        NorthStarModDirectory = Path.Combine(TitanfallDir, NorthStarModDirectory);
+                        ProgramLocation = Path.Combine(TitanfallDir, ProgramLocation);
+                    }
+
                 }
-               
+                else
+                {
+                    MessageBox.Show("Cant find NorthStarModBrowser.config either copy it from the zip or use the updater to make it automatically(it will update to the latest version)", "Cant Find Config File");
+                    System.Environment.Exit(1);
+                }
             }
             else
             {
-                MessageBox.Show("Cant find NorthStarModBrowser.config either copy it from the zip or use the updater to make it automatically(it will update to the latest version)","Cant Find Config File");
-                System.Environment.Exit(1);
-            }
-            newestVersion = getCommitCount(445768377, 0);
+                if (File.Exists("NorthStarModBrowser.config"))
+                {
+                    string[] lines = File.ReadAllLines("NorthStarModBrowser.config");
+                    if (lines.Count() < 2)
+                    {
+                        if (!int.TryParse(lines[0], out currentVersion))
+                        {
+                            MessageBox.Show("The Config file seems to be corrupt please use the updater to fix it", "Config is corrupt");
+                            System.Environment.Exit(1);
+                        }
+                        TitanfallDir = "";
+                    }
+                    else
+                    {
+                        if (int.TryParse(lines[0], out currentVersion))
+                        {
+                            TitanfallDir = lines[1];
+                            if (!File.Exists(Path.Combine(TitanfallDir, "Titanfall2.exe"))) TitanfallDir = "";
+                        }
+                        else
+                        {
+                            MessageBox.Show("The Config file seems to be corrupt please use the updater to fix it", "Config is corrupt");
+                            System.Environment.Exit(1);
+                        }
+                    }
 
+                }
+                else
+                {
+                    MessageBox.Show("Cant find NorthStarModBrowser.config either copy it from the zip or use the updater to make it automatically(it will update to the latest version)", "Cant Find Config File");
+                    System.Environment.Exit(1);
+                }
+            }
+
+
+            newestVersion = getCommitCount(445768377, 0);
             ProgramVersionLabel.Text = "Program Version = " + currentVersion.ToString();
             NewestVersionLabel.Text = "Newest Version = "+ newestVersion.ToString();
             if (currentVersion < newestVersion)
@@ -107,7 +146,7 @@ namespace NorthStarModBrowser
             System.Windows.Forms.Application.ApplicationExit += Application_ApplicationExit;
             git = new GitHubClient(new ProductHeaderValue("a"));
             // get titanfalls location
-            if (!System.IO.Directory.Exists(NorthStarModDirectory)) findTitanfallLocation();
+            ReadConfigFile();
             if (!System.IO.Directory.Exists(ProgramLocation)) System.IO.Directory.CreateDirectory(ProgramLocation);
 
 
@@ -139,8 +178,8 @@ namespace NorthStarModBrowser
         private int getCommitCount(long id,int mod)
         {
             int version=0;
-          // if (mod == 1) version = git.Repository.Commit.GetAll(id).Result.Count;
-           //else if (mod == 0) version = git.Repository.Release.GetAll(id).Result.Count;
+           if (mod == 1) version = git.Repository.Commit.GetAll(id).Result.Count;
+           else if (mod == 0) version = git.Repository.Release.GetAll(id).Result.Count;
             return version;
         }
         private void DownloadList()
