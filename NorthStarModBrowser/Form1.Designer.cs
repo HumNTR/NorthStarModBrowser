@@ -29,11 +29,25 @@ namespace NorthStarModBrowser
         /// </summary>
         private void InitializeComponent()
         {
+            this.updatingbutton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ProgramVersionLabel = new System.Windows.Forms.Label();
+            this.NewestVersionLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // updatingbutton
+            // 
+            this.updatingbutton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.updatingbutton.Location = new System.Drawing.Point(162, 38);
+            this.updatingbutton.Name = "updatingbutton";
+            this.updatingbutton.Size = new System.Drawing.Size(120, 23);
+            this.updatingbutton.TabIndex = 5;
+            this.updatingbutton.Text = "Update to the newest version";
+            this.updatingbutton.UseVisualStyleBackColor = true;
+            this.updatingbutton.Click += new System.EventHandler(this.updatingbutton_Click);
             // 
             // button1
             // 
@@ -76,6 +90,28 @@ namespace NorthStarModBrowser
             this.panel1.Size = new System.Drawing.Size(120, 30);
             this.panel1.TabIndex = 2;
             // 
+            // ProgramVersionLabel
+            // 
+            this.ProgramVersionLabel.AutoSize = true;
+            this.ProgramVersionLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(249)))), ((int)(((byte)(151)))));
+            this.ProgramVersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.ProgramVersionLabel.Location = new System.Drawing.Point(12, 38);
+            this.ProgramVersionLabel.Name = "ProgramVersionLabel";
+            this.ProgramVersionLabel.Size = new System.Drawing.Size(144, 20);
+            this.ProgramVersionLabel.TabIndex = 3;
+            this.ProgramVersionLabel.Text = "Program Version = ";
+            // 
+            // NewestVersionLabel
+            // 
+            this.NewestVersionLabel.AutoSize = true;
+            this.NewestVersionLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(117)))), ((int)(((byte)(11)))));
+            this.NewestVersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.NewestVersionLabel.Location = new System.Drawing.Point(12, 67);
+            this.NewestVersionLabel.Name = "NewestVersionLabel";
+            this.NewestVersionLabel.Size = new System.Drawing.Size(133, 20);
+            this.NewestVersionLabel.TabIndex = 4;
+            this.NewestVersionLabel.Text = "Newest Version =";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -84,6 +120,9 @@ namespace NorthStarModBrowser
             this.BackgroundImage = global::NorthStarModBrowser.Properties.Resources._728597;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.updatingbutton);
+            this.Controls.Add(this.NewestVersionLabel);
+            this.Controls.Add(this.ProgramVersionLabel);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
@@ -100,6 +139,9 @@ namespace NorthStarModBrowser
         public System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         public System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label ProgramVersionLabel;
+        private System.Windows.Forms.Label NewestVersionLabel;
+        public System.Windows.Forms.Button updatingbutton;
     }
 }
 

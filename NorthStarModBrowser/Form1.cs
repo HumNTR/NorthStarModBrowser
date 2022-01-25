@@ -21,25 +21,17 @@ namespace NorthStarModBrowser
         ModClass[] Mods;
         string NorthStarModDirectory = "R2Northstar/mods/";
         string ProgramLocation = "Norhtstarmodbrowser/";
-        string TempLocation;
+        string TitanfallDir = "";
         GitHubClient git;
-        public void findTitanfallLocation()
+        int currentVersion=0,newestVersion;
+       
+        public void useOpenFileDialog()
         {
-
-            if(File.Exists("NorthStarModBrowser.config"))
-            {
-                string TitanfallDir = File.ReadAllText("NorthStarModBrowser.config");
-                if (File.Exists(Path.Combine(TitanfallDir, "Titanfall2.exe"))) {
-                    NorthStarModDirectory = Path.Combine(TitanfallDir, NorthStarModDirectory);
-                    ProgramLocation = Path.Combine(TitanfallDir, ProgramLocation);
-                    return;
-                }
-               
-            }
             start:
             openFileDialog1.ShowDialog();
             if (Path.GetFileName(openFileDialog1.FileName) == "Titanfall2.exe")
             {
+                TitanfallDir = Path.GetFileName(openFileDialog1.FileName);
                 ProgramLocation = Path.Combine(Path.GetDirectoryName(openFileDialog1.FileName), ProgramLocation);
                 NorthStarModDirectory = Path.Combine(Path.GetDirectoryName(openFileDialog1.FileName), NorthStarModDirectory);
             }
@@ -48,19 +40,80 @@ namespace NorthStarModBrowser
                 MessageBox.Show("Selected File wasnt Titanfall2.exe");
                 goto start;
             }
-            File.WriteAllText("NorthStarModBrowser.config", Path.GetDirectoryName(openFileDialog1.FileName));
+            string[] temp = { currentVersion.ToString(), Path.GetDirectoryName(openFileDialog1.FileName) };
+            File.WriteAllLines("NorthStarModBrowser.config", temp);
+        }
+        public void findTitanfallLocation()
+        {
+
+            if(File.Exists("NorthStarModBrowser.config"))
+            {
+                
+                string[] lines = File.ReadAllLines("NorthStarModBrowser.config");
+                if (lines.Count() < 2)
+                {
+                    if (!int.TryParse(lines[0], out currentVersion))
+                    {
+                        MessageBox.Show("The Config file seems to be corrupt please use the updater to fix it", "Config is corrupt");
+                        System.Environment.Exit(1);
+                    }
+                    useOpenFileDialog();
+                    
+                }
+                else
+                {
+                    if (int.TryParse(lines[0], out currentVersion))
+                    {
+                        TitanfallDir = lines[1];
+                        if (!File.Exists(Path.Combine(TitanfallDir, "Titanfall2.exe"))) useOpenFileDialog();
+                    }
+                    else
+                    {
+                        MessageBox.Show("The Config file seems to be corrupt please use the updater to fix it", "Config is corrupt");
+                        System.Environment.Exit(1);
+                    }
+                }
+
+                if (File.Exists(Path.Combine(TitanfallDir, "Titanfall2.exe"))) {
+
+                    NorthStarModDirectory = Path.Combine(TitanfallDir, NorthStarModDirectory);
+                    ProgramLocation = Path.Combine(TitanfallDir, ProgramLocation);
+                }
+               
+            }
+            else
+            {
+                MessageBox.Show("Cant find NorthStarModBrowser.config either copy it from the zip or use the updater to make it automatically(it will update to the latest version)","Cant Find Config File");
+                System.Environment.Exit(1);
+            }
+            newestVersion = getCommitCount(445768377, 0);
+
+            ProgramVersionLabel.Text = "Program Version = " + currentVersion.ToString();
+            NewestVersionLabel.Text = "Newest Version = "+ newestVersion.ToString();
+            if (currentVersion < newestVersion)
+            {
+                MessageBox.Show("There is a newer version available pls update using the updater", "Update Available");
+                updatingbutton.Enabled=true;
+                updatingbutton.Visible = true;
+            }
         }
         public Form1()
         {
+
             InitializeComponent();
+            updatingbutton.Enabled = false;
+            updatingbutton.Visible = false;
+            //connect to git 
+            System.Windows.Forms.Application.ApplicationExit += Application_ApplicationExit;
+            git = new GitHubClient(new ProductHeaderValue("a"));
+            // get titanfalls location
             if (!System.IO.Directory.Exists(NorthStarModDirectory)) findTitanfallLocation();
             if (!System.IO.Directory.Exists(ProgramLocation)) System.IO.Directory.CreateDirectory(ProgramLocation);
-            //connect to git 
-            git = new GitHubClient(new ProductHeaderValue("a"));
-            TempLocation = Path.GetTempPath();
+
+
             DownloadList();
             createList();
-            //make vertical scrolbarr go away
+            //make horizontal scrolbarr go away
             panel1.AutoScroll = false;
             panel1.HorizontalScroll.Enabled = false;
             panel1.HorizontalScroll.Visible = false;
@@ -68,13 +121,26 @@ namespace NorthStarModBrowser
             panel1.AutoScroll = true;
             SizeChanged += sizeChanged;
         }
+        bool shouldUpdate=false;
+        public void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            if (shouldUpdate)
+            {
+                var process = new ProcessStartInfo("NorthstarModBrowserUpdater.exe");
+                process.WorkingDirectory= System.IO.Directory.GetCurrentDirectory();
+                Process.Start(process);
+            }
+        }
+      
         public void sizeChanged(object sender, System.EventArgs e)
         {
             panel1.MaximumSize = new Size(1000, Height/2);
         }
-        private int getCommitCount(long id)
+        private int getCommitCount(long id,int mod)
         {
-            int version = git.Repository.Commit.GetAll(id).Result.Count;
+            int version=0;
+          // if (mod == 1) version = git.Repository.Commit.GetAll(id).Result.Count;
+           //else if (mod == 0) version = git.Repository.Release.GetAll(id).Result.Count;
             return version;
         }
         private void DownloadList()
@@ -129,7 +195,7 @@ namespace NorthStarModBrowser
                 Mods[count].ArrayId = count;
                 Mods[count].Id = long.Parse(splits[3]);
                 Mods[count].Mode = int.Parse(splits[4]);
-                Mods[count].NewestVersion = getCommitCount(Mods[count].Id);
+                Mods[count].NewestVersion = getCommitCount(Mods[count].Id,Mods[count].Mode);
                 Mods[count].x = 10;
                 Mods[count].y = count * 20;
                 
@@ -227,7 +293,14 @@ namespace NorthStarModBrowser
             modToRemove.button.BackColor = Color.White;
             
         }
-        private  async void downloadAndInstallMod(ModClass modToInstall)
+
+        private void updatingbutton_Click(object sender, EventArgs e)
+        {
+            shouldUpdate = true;
+            System.Windows.Forms.Application.Exit();
+        }
+
+        private async void downloadAndInstallMod(ModClass modToInstall)
         {
             if(modToInstall.NewestVersion== modToInstall.CurrentVersion)
             {

@@ -1,1 +1,0 @@
-put these files under titanfalls location or somewhere else (you will be asked to locate titanfalls location if you put it somewhere else)
