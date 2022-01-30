@@ -24,7 +24,7 @@ namespace NorthStarModBrowser
         string TitanfallDir = "";
         GitHubClient git;
         int currentVersion=0,newestVersion;
-       
+        string gitHubToken;
         public void useOpenFileDialog()
         {
             start:
@@ -126,7 +126,35 @@ namespace NorthStarModBrowser
             }
 
 
-            newestVersion = getCommitCount(445768377, 0);
+           
+        }
+        public void ReadGithubConfig()
+        {
+            string path = Path.Combine(ProgramLocation, "ModBrowserGithub.config");
+            Console.WriteLine(path);
+            if (File.Exists(Path.Combine(ProgramLocation,"ModBrowserGithub.config")))
+            {
+                string[] lines = File.ReadAllLines(Path.Combine(ProgramLocation, "ModBrowserGithub.config"));
+                if(lines.Length>=1)
+                {
+                    gitHubToken = lines[0];
+                    var basicAuth = new Credentials(gitHubToken); // NOTE: not real credentials
+                    git.Credentials = basicAuth;
+                    try
+                    {
+                        if(git.Miscellaneous.GetRateLimits().Result.Rate.Limit>60) githubNameTextBox.Text = "Logged in succesfully"; 
+
+                    }
+                    catch (Exception b)
+                    {
+
+                        if (b.InnerException.GetType().Name == "AuthorizationException") MessageBox.Show("Github token that was in the config file doesnt work");
+                        File.Delete(Path.Combine(ProgramLocation, "ModBrowserGithub.config"));
+                    }
+
+                }
+            }
+             newestVersion = getCommitCount(445768377, 0);
             ProgramVersionLabel.Text = "Program Version = " + currentVersion.ToString();
             NewestVersionLabel.Text = "Newest Version = "+ newestVersion.ToString();
             if (currentVersion < newestVersion)
@@ -140,13 +168,15 @@ namespace NorthStarModBrowser
         {
 
             InitializeComponent();
+
             updatingbutton.Enabled = false;
             updatingbutton.Visible = false;
             //connect to git 
             System.Windows.Forms.Application.ApplicationExit += Application_ApplicationExit;
-            git = new GitHubClient(new ProductHeaderValue("a"));
+            git = new GitHubClient(new ProductHeaderValue("ModBrowser"));
             // get titanfalls location
             ReadConfigFile();
+            ReadGithubConfig();
             if (!System.IO.Directory.Exists(ProgramLocation)) System.IO.Directory.CreateDirectory(ProgramLocation);
 
 
@@ -157,8 +187,13 @@ namespace NorthStarModBrowser
             panel1.HorizontalScroll.Enabled = false;
             panel1.HorizontalScroll.Visible = false;
             panel1.HorizontalScroll.Maximum = 0;
+            panel1.VerticalScroll.Enabled = false;
+            panel1.VerticalScroll.Visible = false;
+            panel1.VerticalScroll.Maximum = 0;
             panel1.AutoScroll = true;
+            //set function to be called when size changed so the max height can be changed
             SizeChanged += sizeChanged;
+            sizeChanged(null,null);
         }
         bool shouldUpdate=false;
         public void Application_ApplicationExit(object sender, EventArgs e)
@@ -173,13 +208,22 @@ namespace NorthStarModBrowser
       
         public void sizeChanged(object sender, System.EventArgs e)
         {
-            panel1.MaximumSize = new Size(1000, Height/2);
+            panel1.MaximumSize = new Size(1000, Height/3);
         }
         private int getCommitCount(long id,int mod)
         {
             int version=0;
-           if (mod == 1) version = git.Repository.Commit.GetAll(id).Result.Count;
-           else if (mod == 0) version = git.Repository.Release.GetAll(id).Result.Count;
+            try
+            {
+                if (mod == 1) version = git.Repository.Commit.GetAll(id).Result.Count;
+                else if (mod == 0) version = git.Repository.Release.GetAll(id).Result.Count;
+            }
+            catch (Exception ex)
+            {
+                    RateLimit r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
+                    MessageBox.Show("The api limit for github has been reached and will be reset at " + r.Reset, "Api limit has been reached");
+                
+            }
             return version;
         }
         private void DownloadList()
@@ -193,31 +237,49 @@ namespace NorthStarModBrowser
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                        RateLimit r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
+                        MessageBox.Show("The api limit for github has been reached and will be reset at " + r.Reset, "Api limit has been reached");
+                    
                 }
             }
         }
         //this part is taken from haakonfp
         public async Task<Release> getReleases(long gitId)
         {
+            try
+            {
+                // Retrieve a List of Releases in the Repository, and get latest using [0]-subscript
+                var latest = git.Repository.Release.GetAll(gitId).Result[0];
+                return latest;
+            }
+            catch(Exception ex)
+            {
+
+
+                
+                    RateLimit r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
+                    MessageBox.Show("The api limit for github has been reached and will be reset at "+ r.Reset,"Api limit has been reached");
+                
+
+            }
+            return null;
+            
+        }
+        private void openDescriptionForm(object sender, EventArgs e)
+        {
+            ModClass mod = Mods[int.Parse(((Button)sender).Name)];
+
+            if (mod.descForm != null && !mod.descForm.IsDisposed ) {
+                    mod.descForm.Focus();
+             }
+            else
+            {
+                mod.descForm = new DescForm(mod.Owner, mod.Name, mod.Link, "");
+                mod.descForm.Show();
+            }
+            
           
-
-            // Retrieve a List of Releases in the Repository, and get latest using [0]-subscript
-            var latest = git.Repository.Release.GetAll(gitId).Result[0];
-
-            return latest;
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            openFileDialog2.ShowDialog();
-            if (File.Exists(openFileDialog2.FileName))ZipFile.ExtractToDirectory(openFileDialog2.FileName, NorthStarModDirectory);
-        }
-        public void LinkedLabelClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            LinkLabel llb = (LinkLabel) sender;
-            llb.LinkVisited = true;
-            System.Diagnostics.Process.Start(Mods[int.Parse(llb.Name)].Link);
-        }
+     }
         private void createList()
         {
             int count = 0;
@@ -236,23 +298,35 @@ namespace NorthStarModBrowser
                 Mods[count].Mode = int.Parse(splits[4]);
                 Mods[count].NewestVersion = getCommitCount(Mods[count].Id,Mods[count].Mode);
                 Mods[count].x = 10;
-                Mods[count].y = count * 20;
-                
+                Mods[count].y = count * 40;
+                //create info button 
+                Button infoBut = new Button();
+                infoBut.Name = count.ToString();
+                infoBut.BackgroundImage = Properties.Resources.info;
+                infoBut.BackgroundImageLayout = ImageLayout.Stretch;
+                infoBut.BackColor = Color.Transparent;
+                infoBut.Location= new Point(10, Mods[count].y);
+                infoBut.Size = new Size(30, 30);
+                Mods[count].ButInfo = infoBut;
+                infoBut.Click += openDescriptionForm;
+                panel1.Controls.Add(infoBut);
                 //create install button
                 Button but = new Button();
                 but.Text =Mods[count].Name;
                 but.Name = "i"+count.ToString();
                 but.Size = new Size(100, 20);
                 but.Click += new EventHandler(Button_Click);
+                but.Location = new Point(infoBut.Bounds.Right+10, Mods[count].y);
+                but.FlatStyle = FlatStyle.Flat;
+                but.Size = new Size(150, 30);
                 Mods[count].button = but;
+                but.BackColor = Color.FromArgb(100, Color.White);
                 panel1.Controls.Add(but);
-                but.Location = new Point(10,count * 20);
-
                 // create the newest version label
                 System.Windows.Forms.Label text = new System.Windows.Forms.Label();
                 text.Text = Mods[count].NewestVersion.ToString();
                 text.Size = new Size(20, 20);
-                text.Location = new Point(Mods[count].button.Bounds.Right + 10, count * 20);
+                text.Location = new Point(Mods[count].button.Bounds.Right + 10, Mods[count].y);
                 text.BackColor = Color.FromArgb(0, 0, 0, 0);
                 text.ForeColor = Color.White;
                 Mods[count].newestVersionLabel = text;
@@ -267,18 +341,6 @@ namespace NorthStarModBrowser
                 Mods[count].currentVersionLabel = lbl;
                 lbl.Visible = false;
                 panel1.Controls.Add(lbl);
-
-                //create git link label (we do it here because it should be created after current version label)
-                LinkLabel llb = new LinkLabel();
-                llb.Name = count.ToString();
-                llb.AutoSize = true;
-                llb.Location = new Point(Mods[count].currentVersionLabel.Bounds.Right + 20, Mods[count].button.Bounds.Y);
-                llb.Text = "Github";
-                llb.LinkArea = new LinkArea(0, 11);
-                llb.Links.Add(24, 9, Mods[count].Link);
-                llb.LinkClicked += LinkedLabelClicked;
-                Mods[count].LinkLabel = llb;
-                panel1.Controls.Add(llb);
 
                 count++;
             }
@@ -299,16 +361,19 @@ namespace NorthStarModBrowser
                         // make a delete button
                         Button butdlt = new Button();
                         butdlt.Name = "d" + modToCheck.ArrayId;
-                        butdlt.Text = "Delete "+ nameOfTheMod;
-                        butdlt.Size = new Size(100, 20);
+                        butdlt.Text = "Delete";
                         butdlt.TextAlign = ContentAlignment.MiddleCenter;
-                        butdlt.Location = new Point(modToCheck.LinkLabel.Bounds.Right + 10, modToCheck.button.Bounds.Y);
+                        butdlt.Size = new Size(100, 30);
+                        butdlt.TextAlign = ContentAlignment.MiddleCenter;
+                        butdlt.Location = new Point(modToCheck.currentVersionLabel.Bounds.Right + 10, modToCheck.button.Bounds.Y);
                         butdlt.Click += Button_Click;
+                        butdlt.FlatStyle = FlatStyle.Flat;
+                        butdlt.BackColor = Color.FromArgb(100, Color.Red);
                         modToCheck.ButtonDelete = butdlt;
                         panel1.Controls.Add(butdlt);
                         //change the buttons color depending on the versions
-                        if (CurrentVersion == modToCheck.NewestVersion) modToCheck.button.BackColor = Color.Green;
-                        else modToCheck.button.BackColor = Color.Red;               
+                        if (CurrentVersion == modToCheck.NewestVersion) modToCheck.button.BackColor = Color.FromArgb(100,Color.Green);
+                        else modToCheck.button.BackColor = Color.FromArgb(100,Color.Red);               
                     }
                 }
             }
@@ -329,7 +394,7 @@ namespace NorthStarModBrowser
             modToRemove.CurrentVersion = -1;
             modToRemove.currentVersionLabel.Visible = false;
             panel1.Controls.Remove(modToRemove.ButtonDelete);
-            modToRemove.button.BackColor = Color.White;
+            modToRemove.button.BackColor = Color.FromArgb(100,Color.White);
             
         }
 
@@ -337,6 +402,78 @@ namespace NorthStarModBrowser
         {
             shouldUpdate = true;
             System.Windows.Forms.Application.Exit();
+        }
+
+        private void GithubLoginButton_Click(object sender, EventArgs e)
+        {
+            gitHubToken = githubNameTextBox.Text;
+            if(gitHubToken== "")
+            {
+                MessageBox.Show("Token was empty", "Empty");
+                return;
+            }
+            var basicAuth = new Credentials(gitHubToken); // NOTE: not real credentials
+            git.Credentials = basicAuth;
+            RateLimit r= new RateLimit();
+            try
+            {
+              r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
+               
+            }
+            catch (Exception b)
+            {
+
+                if (b.InnerException.GetType().Name == "AuthorizationException") MessageBox.Show("Token you entered is wrong please try again","Cant Log In");
+            }
+            if (r.Limit>60)
+            {
+                if(MessageBox.Show("Logged into github succesfully. Do you want the login info to be saved ?", "Success",MessageBoxButtons.YesNo)==DialogResult.Yes)
+                {
+                    File.WriteAllText(Path.Combine(ProgramLocation, "ModBrowserGithub.config"), gitHubToken);
+                }
+                githubNameTextBox.Text = "Logged in succesfully";
+            }
+        }
+        private void panel1_Scroll(object sender, MouseEventArgs e)
+        {
+            panel1.BackColor = System.Drawing.Color.Empty;
+            panel1.BackColor = System.Drawing.Color.Transparent;
+        }
+
+        private void githubNameTextBox_Enter(object sender, EventArgs e)
+        {
+            TextBox t = (TextBox)sender;
+            if (t.Text == "Github Token" || t.Text == "Logged in succesfully")
+            {
+                t.Text = "";
+            }
+        }
+
+        private void githubNameTextBox_Leave(object sender, EventArgs e)
+        {
+            TextBox t = (TextBox)sender;
+            if (t.Text=="")
+            {
+                RateLimit r = new RateLimit();
+                try
+                {
+                    r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
+
+                }
+                catch (Exception b)
+                {
+
+                    if (b.InnerException.GetType().Name == "AuthorizationException") MessageBox.Show("Token you entered is wrong please try again", "Cant Log In");
+                }
+                if (r.Limit > 60)
+                {
+                    t.Text = "Logged in succesfully";
+                }
+                else
+                {
+                    t.Text = "Github Token";
+                }
+            }
         }
 
         private async void downloadAndInstallMod(ModClass modToInstall)
@@ -348,14 +485,16 @@ namespace NorthStarModBrowser
             }
             // create a loading icon
             PictureBox pbloading = new PictureBox();
-            pbloading.BackgroundImage = Properties.Resources.Triangles_indicator;
-            pbloading.BackgroundImageLayout = ImageLayout.Stretch;
+            pbloading.Image = Properties.Resources.Triangles_indicator;
+            pbloading.SizeMode = PictureBoxSizeMode.StretchImage;
             pbloading.BackColor = Color.Transparent;
 
-            pbloading.Location = new Point(modToInstall.currentVersionLabel.Right, modToInstall.button.Bounds.Y);
+            pbloading.Location = new Point(modToInstall.currentVersionLabel.Bounds.X, modToInstall.button.Bounds.Y);
             pbloading.Size = new Size(20 , 20);
             panel1.Controls.Add(pbloading);
-            
+            //make current version invisible so loading icon will be visible
+            modToInstall.currentVersionLabel.Visible = false;
+
             //find the link to the mods
             string url,name = modToInstall.Name;
             if (modToInstall.Mode == 0) url = getReleases(modToInstall.Id).Result.ZipballUrl;
@@ -393,16 +532,18 @@ namespace NorthStarModBrowser
                     Button butdlt = new Button();
                     butdlt.Name = "d" + modToInstall.ArrayId;
                     butdlt.Text = "Delete";
-                    butdlt.Size = new Size(100, 20);
+                    butdlt.Size = new Size(100, 30);
                     butdlt.TextAlign = ContentAlignment.MiddleCenter;
-                    butdlt.Location = new Point(modToInstall.LinkLabel.Bounds.Right + 10, modToInstall.button.Bounds.Y);
+                    butdlt.Location = new Point(modToInstall.currentVersionLabel.Bounds.Right + 10, modToInstall.button.Bounds.Y);
                     butdlt.Click += Button_Click;
+                    butdlt.FlatStyle = FlatStyle.Flat;
+                    butdlt.BackColor = Color.FromArgb(100, Color.Red);
                     modToInstall.ButtonDelete = butdlt;
                     panel1.Controls.Add(butdlt);
                 }
                 else
                 {
-                    modToInstall.ButtonDelete.Location= new Point(modToInstall.LinkLabel.Bounds.Right + 10, modToInstall.button.Bounds.Y);
+                    modToInstall.ButtonDelete.Location= new Point(modToInstall.currentVersionLabel.Bounds.Right + 10, modToInstall.button.Bounds.Y);
                     panel1.Controls.Add(modToInstall.ButtonDelete);
                 }
             }
@@ -425,7 +566,9 @@ namespace NorthStarModBrowser
             panel1.Controls.Remove(pbloading);
 
             //change the button color to green to show that the mod is up to date
-            modToInstall.button.BackColor = Color.Green;
+            modToInstall.button.BackColor = Color.FromArgb(100,Color.Green);
+            //make current version visible
+            modToInstall.currentVersionLabel.Visible = true;
         }
     }
 
@@ -438,11 +581,15 @@ namespace NorthStarModBrowser
         public int Mode = 0;
         public int NewestVersion = 0,CurrentVersion=-1;
         public int x = 0, y = 0;
-        public Button button,ButtonDelete;
+        public Button button,ButtonDelete,ButInfo;
         public System.Windows.Forms.Label currentVersionLabel, newestVersionLabel;
-        public LinkLabel LinkLabel;
+        public DescForm descForm;
     }
-
+    public class MyDisplay : Panel
+    {
+        public MyDisplay()
+        {
+            this.DoubleBuffered = true;
+        }
+    }
 }
-
-

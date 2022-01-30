@@ -31,36 +31,29 @@ namespace NorthStarModBrowser
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.updatingbutton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.ProgramVersionLabel = new System.Windows.Forms.Label();
             this.NewestVersionLabel = new System.Windows.Forms.Label();
+            this.githubNameTextBox = new System.Windows.Forms.TextBox();
+            this.GithubLoginButton = new System.Windows.Forms.Button();
+            this.panel1 = new NorthStarModBrowser.MyDisplay();
             this.SuspendLayout();
             // 
             // updatingbutton
             // 
+            this.updatingbutton.BackColor = System.Drawing.Color.Transparent;
             this.updatingbutton.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.updatingbutton.Location = new System.Drawing.Point(162, 38);
+            this.updatingbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.updatingbutton.Font = new System.Drawing.Font("Arial", 8F, System.Drawing.FontStyle.Bold);
+            this.updatingbutton.ForeColor = System.Drawing.Color.White;
+            this.updatingbutton.Location = new System.Drawing.Point(12, 62);
             this.updatingbutton.Name = "updatingbutton";
-            this.updatingbutton.Size = new System.Drawing.Size(120, 23);
+            this.updatingbutton.Size = new System.Drawing.Size(141, 23);
             this.updatingbutton.TabIndex = 5;
             this.updatingbutton.Text = "Update to the newest version";
-            this.updatingbutton.UseVisualStyleBackColor = true;
+            this.updatingbutton.UseVisualStyleBackColor = false;
             this.updatingbutton.Click += new System.EventHandler(this.updatingbutton_Click);
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.button1.ForeColor = System.Drawing.Color.Coral;
-            this.button1.Location = new System.Drawing.Point(12, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(158, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Install From Zip File";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // openFileDialog2
             // 
@@ -71,61 +64,87 @@ namespace NorthStarModBrowser
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel1.AutoScroll = true;
-            this.panel1.AutoScrollMargin = new System.Drawing.Size(0, 10);
-            this.panel1.AutoScrollMinSize = new System.Drawing.Size(0, 10);
-            this.panel1.AutoSize = true;
-            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.panel1.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.panel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.panel1.Location = new System.Drawing.Point(12, 353);
-            this.panel1.MaximumSize = new System.Drawing.Size(1000, 120);
-            this.panel1.MinimumSize = new System.Drawing.Size(120, 30);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 20, 7);
-            this.panel1.Size = new System.Drawing.Size(120, 30);
-            this.panel1.TabIndex = 2;
-            // 
             // ProgramVersionLabel
             // 
             this.ProgramVersionLabel.AutoSize = true;
-            this.ProgramVersionLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(202)))), ((int)(((byte)(249)))), ((int)(((byte)(151)))));
-            this.ProgramVersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.ProgramVersionLabel.Location = new System.Drawing.Point(12, 38);
+            this.ProgramVersionLabel.BackColor = System.Drawing.Color.Transparent;
+            this.ProgramVersionLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ProgramVersionLabel.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.ProgramVersionLabel.ForeColor = System.Drawing.Color.White;
+            this.ProgramVersionLabel.Location = new System.Drawing.Point(12, 9);
             this.ProgramVersionLabel.Name = "ProgramVersionLabel";
-            this.ProgramVersionLabel.Size = new System.Drawing.Size(144, 20);
+            this.ProgramVersionLabel.Size = new System.Drawing.Size(154, 19);
             this.ProgramVersionLabel.TabIndex = 3;
             this.ProgramVersionLabel.Text = "Program Version = ";
             // 
             // NewestVersionLabel
             // 
             this.NewestVersionLabel.AutoSize = true;
-            this.NewestVersionLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(117)))), ((int)(((byte)(11)))));
-            this.NewestVersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.NewestVersionLabel.Location = new System.Drawing.Point(12, 67);
+            this.NewestVersionLabel.BackColor = System.Drawing.Color.Transparent;
+            this.NewestVersionLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.NewestVersionLabel.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.NewestVersionLabel.ForeColor = System.Drawing.Color.White;
+            this.NewestVersionLabel.Location = new System.Drawing.Point(12, 39);
             this.NewestVersionLabel.Name = "NewestVersionLabel";
-            this.NewestVersionLabel.Size = new System.Drawing.Size(133, 20);
+            this.NewestVersionLabel.Size = new System.Drawing.Size(141, 19);
             this.NewestVersionLabel.TabIndex = 4;
             this.NewestVersionLabel.Text = "Newest Version =";
+            // 
+            // githubNameTextBox
+            // 
+            this.githubNameTextBox.AcceptsTab = true;
+            this.githubNameTextBox.BackColor = System.Drawing.Color.Silver;
+            this.githubNameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.githubNameTextBox.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.githubNameTextBox.Location = new System.Drawing.Point(12, 91);
+            this.githubNameTextBox.Name = "githubNameTextBox";
+            this.githubNameTextBox.Size = new System.Drawing.Size(141, 20);
+            this.githubNameTextBox.TabIndex = 6;
+            this.githubNameTextBox.TabStop = false;
+            this.githubNameTextBox.Text = "Github Token";
+            this.githubNameTextBox.Enter += new System.EventHandler(this.githubNameTextBox_Enter);
+            this.githubNameTextBox.Leave += new System.EventHandler(this.githubNameTextBox_Leave);
+            // 
+            // GithubLoginButton
+            // 
+            this.GithubLoginButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.GithubLoginButton.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.GithubLoginButton.ForeColor = System.Drawing.Color.White;
+            this.GithubLoginButton.Location = new System.Drawing.Point(12, 117);
+            this.GithubLoginButton.Name = "GithubLoginButton";
+            this.GithubLoginButton.Size = new System.Drawing.Size(100, 23);
+            this.GithubLoginButton.TabIndex = 8;
+            this.GithubLoginButton.Text = "Login to GitHub";
+            this.GithubLoginButton.UseVisualStyleBackColor = true;
+            this.GithubLoginButton.Click += new System.EventHandler(this.GithubLoginButton_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.AutoSize = true;
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 417);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(436, 0);
+            this.panel1.TabIndex = 11;
+            this.panel1.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.panel1_Scroll);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BackgroundImage = global::NorthStarModBrowser.Properties.Resources._728597;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(436, 417);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.GithubLoginButton);
+            this.Controls.Add(this.githubNameTextBox);
             this.Controls.Add(this.updatingbutton);
             this.Controls.Add(this.NewestVersionLabel);
             this.Controls.Add(this.ProgramVersionLabel);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.button1);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "NorthStar Mod Browser";
@@ -137,13 +156,14 @@ namespace NorthStarModBrowser
         #endregion
 
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
         public System.Windows.Forms.OpenFileDialog openFileDialog2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        public System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label ProgramVersionLabel;
         private System.Windows.Forms.Label NewestVersionLabel;
         public System.Windows.Forms.Button updatingbutton;
+        private System.Windows.Forms.TextBox githubNameTextBox;
+        private System.Windows.Forms.Button GithubLoginButton;
+        private MyDisplay panel1;
     }
 }
 

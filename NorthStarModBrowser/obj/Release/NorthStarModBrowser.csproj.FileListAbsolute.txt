@@ -11,3 +11,4 @@ C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\N
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.csproj.CopyComplete
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.exe
 C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.pdb
+C:\Users\HumN\source\repos\NorthStarModBrowser\NorthStarModBrowser\obj\Release\NorthStarModBrowser.DescForm.resources

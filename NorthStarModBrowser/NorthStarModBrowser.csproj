@@ -60,10 +60,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="DescForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DescForm.Designer.cs">
+      <DependentUpon>DescForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DescForm.resx">
+      <DependentUpon>DescForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -97,6 +106,8 @@
   <ItemGroup>
     <None Include="Resources\Triangles indicator.gif" />
     <None Include="Resources\greentick.png" />
+    <None Include="Resources\919435.jpg" />
+    <None Include="Resources\kisspng-computer-icons-icon-design-encapsulated-postscript-more-info-icon-5b4fcee5221525.1405874515319569651396.png" />
     <Content Include="Resources\loading.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
