@@ -12,6 +12,7 @@ using System.IO.Compression;
 using System.Diagnostics;
 using Octokit;
 using System.Threading;
+using Microsoft.VisualBasic;
 
 namespace NorthStarModBrowser
 {
@@ -180,7 +181,7 @@ namespace NorthStarModBrowser
             if (!System.IO.Directory.Exists(ProgramLocation)) System.IO.Directory.CreateDirectory(ProgramLocation);
 
 
-            DownloadList();
+           // DownloadList();
             createList();
             //make horizontal scrolbarr go away
             panel1.AutoScroll = false;
@@ -212,6 +213,7 @@ namespace NorthStarModBrowser
         }
         private int getCommitCount(long id,int mod)
         {
+            start:
             int version=0;
             try
             {
@@ -220,10 +222,40 @@ namespace NorthStarModBrowser
             }
             catch (Exception ex)
             {
-                    RateLimit r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
-                    MessageBox.Show("The api limit for github has been reached and will be reset at " + r.Reset, "Api limit has been reached");
-                
+                RateLimit r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
+                if (r.Remaining == 0)
+                {
+                    retry:
+                    string gitToken = Interaction.InputBox("The api limit for github has been reached and will be reset at " + r.Reset.LocalDateTime + "\n but you can bypass it by logging with a github token ", "Api limit Reached", "Token");
+                    git.Credentials = new Credentials(gitToken);
+                    try
+                    {
+                        r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
+
+                    }
+                    catch (Exception b)
+                    {
+                        if (b.InnerException.GetType().Name == "AuthorizationException")
+                        {
+                            if (MessageBox.Show("Token you entered is wrong please try again. \n Do you want to exit the program ?", "Cant Log In", MessageBoxButtons.YesNo) == DialogResult.Yes) System.Environment.Exit(1);
+                            else goto retry;
+
+                        }
+                    }
+                    if (r.Limit > 60)
+                    {
+                        githubNameTextBox.Text = "Logged in succesfully";
+                        if (MessageBox.Show("Logged into github succesfully. Do you want the login info to be saved ?", "Success", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            File.WriteAllText(Path.Combine(ProgramLocation, "ModBrowserGithub.config"), gitToken);
+                        }
+                        goto start;
+                    }
+                }
+
+
             }
+
             return version;
         }
         private void DownloadList()
@@ -246,6 +278,7 @@ namespace NorthStarModBrowser
         //this part is taken from haakonfp
         public async Task<Release> getReleases(long gitId)
         {
+            start:
             try
             {
                 // Retrieve a List of Releases in the Repository, and get latest using [0]-subscript
@@ -254,12 +287,37 @@ namespace NorthStarModBrowser
             }
             catch(Exception ex)
             {
+                RateLimit r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
+                if (r.Remaining == 0)
+                {
+                    retry:
+                    string gitToken = Interaction.InputBox("The api limit for github has been reached and will be reset at " + r.Reset.LocalDateTime + "\n but you can bypass it by logging with a github token ", "Api limit Reached", "Token");
+                    git.Credentials = new Credentials(gitToken);
+                    try
+                    {
+                        r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
 
+                    }
+                    catch (Exception b)
+                    {
+                        if (b.InnerException.GetType().Name == "AuthorizationException")
+                        {
+                            if (MessageBox.Show("Token you entered is wrong please try again. \n Do you want to exit the program ?", "Cant Log In", MessageBoxButtons.YesNo) == DialogResult.Yes) System.Environment.Exit(1);
+                            else goto retry;
 
-                
-                    RateLimit r = git.Miscellaneous.GetRateLimits().Result.Resources.Core;
-                    MessageBox.Show("The api limit for github has been reached and will be reset at "+ r.Reset,"Api limit has been reached");
-                
+                        }
+                    }
+                    if (r.Limit > 60)
+                    {
+                        githubNameTextBox.Text = "Logged in succesfully";
+                        if (MessageBox.Show("Logged into github succesfully. Do you want the login info to be saved ?", "Success", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            File.WriteAllText(Path.Combine(ProgramLocation, "ModBrowserGithub.config"), gitToken);
+                        }
+                        goto start;
+                    }
+                }
+
 
             }
             return null;
@@ -274,7 +332,7 @@ namespace NorthStarModBrowser
              }
             else
             {
-                mod.descForm = new DescForm(mod.Owner, mod.Name, mod.Link, "");
+                mod.descForm = new DescForm(mod.Owner, mod.Name, mod.Link, mod.desc);
                 mod.descForm.Show();
             }
             
@@ -283,7 +341,7 @@ namespace NorthStarModBrowser
         private void createList()
         {
             int count = 0;
-            IEnumerable<string> lines = File.ReadLines(ProgramLocation + "ModList.txt");
+            IEnumerable<string> lines = File.ReadAllText(ProgramLocation + "ModList.txt").Split('*');
             Mods = new ModClass[lines.Count()];
             for (int i = 0; i < lines.Count(); i++)Mods[i] = new ModClass();
             foreach (string s in lines)
@@ -296,6 +354,7 @@ namespace NorthStarModBrowser
                 Mods[count].ArrayId = count;
                 Mods[count].Id = long.Parse(splits[3]);
                 Mods[count].Mode = int.Parse(splits[4]);
+                Mods[count].desc = splits[5];
                 Mods[count].NewestVersion = getCommitCount(Mods[count].Id,Mods[count].Mode);
                 Mods[count].x = 10;
                 Mods[count].y = count * 40;
@@ -576,6 +635,7 @@ namespace NorthStarModBrowser
     {
         public string Name = "";
         public string Owner = "";
+        public string desc="";
         public long Id = 0,ArrayId;
         public string Link = "";
         public int Mode = 0;

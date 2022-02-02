@@ -41,7 +41,7 @@ namespace NorthStarModBrowser
             this.nameLabel.AutoSize = true;
             this.nameLabel.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold);
             this.nameLabel.ForeColor = System.Drawing.Color.White;
-            this.nameLabel.Location = new System.Drawing.Point(12, 9);
+            this.nameLabel.Location = new System.Drawing.Point(12, 71);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(87, 24);
             this.nameLabel.TabIndex = 0;
@@ -52,7 +52,7 @@ namespace NorthStarModBrowser
             this.OwnerLabel.AutoSize = true;
             this.OwnerLabel.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold);
             this.OwnerLabel.ForeColor = System.Drawing.Color.White;
-            this.OwnerLabel.Location = new System.Drawing.Point(12, 33);
+            this.OwnerLabel.Location = new System.Drawing.Point(12, 95);
             this.OwnerLabel.Name = "OwnerLabel";
             this.OwnerLabel.Size = new System.Drawing.Size(96, 24);
             this.OwnerLabel.TabIndex = 1;
@@ -60,13 +60,15 @@ namespace NorthStarModBrowser
             // 
             // DescLabel
             // 
+            this.DescLabel.AutoSize = true;
+            this.DescLabel.CausesValidation = false;
             this.DescLabel.Cursor = System.Windows.Forms.Cursors.Default;
             this.DescLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.DescLabel.Font = new System.Drawing.Font("Arial", 15F, System.Drawing.FontStyle.Bold);
+            this.DescLabel.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.DescLabel.ForeColor = System.Drawing.Color.White;
-            this.DescLabel.Location = new System.Drawing.Point(12, 57);
+            this.DescLabel.Location = new System.Drawing.Point(12, 134);
             this.DescLabel.Name = "DescLabel";
-            this.DescLabel.Size = new System.Drawing.Size(373, 58);
+            this.DescLabel.Size = new System.Drawing.Size(371, 19);
             this.DescLabel.TabIndex = 2;
             this.DescLabel.Text = "Description = (There is currently no description)";
             // 
@@ -75,7 +77,7 @@ namespace NorthStarModBrowser
             this.githubButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.githubButton.Font = new System.Drawing.Font("Arial", 11F, System.Drawing.FontStyle.Bold);
             this.githubButton.ForeColor = System.Drawing.Color.White;
-            this.githubButton.Location = new System.Drawing.Point(12, 118);
+            this.githubButton.Location = new System.Drawing.Point(16, 9);
             this.githubButton.Name = "githubButton";
             this.githubButton.Size = new System.Drawing.Size(122, 59);
             this.githubButton.TabIndex = 3;
@@ -87,14 +89,17 @@ namespace NorthStarModBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(36)))));
             this.ClientSize = new System.Drawing.Size(397, 202);
             this.Controls.Add(this.githubButton);
             this.Controls.Add(this.DescLabel);
             this.Controls.Add(this.OwnerLabel);
             this.Controls.Add(this.nameLabel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(10000, 10000);
+            this.MinimumSize = new System.Drawing.Size(10, 10);
             this.Name = "DescForm";
             this.Text = "Temp";
             this.ResumeLayout(false);

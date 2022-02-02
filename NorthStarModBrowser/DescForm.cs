@@ -19,8 +19,8 @@ namespace NorthStarModBrowser
             this.Text = Name;
             OwnerLabel.Text ="Creator = "+ Creator;
             nameLabel.Text = "Mods Name = "+Name;
-            gitHubLink = GithubLink;
-            DescLabel.Text = Desctription;
+            gitHubLink =GithubLink;
+            DescLabel.Text = "Description :"+ Desctription;
         }
 
         private void githubButton_Click(object sender, EventArgs e)
