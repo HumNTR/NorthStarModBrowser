@@ -128,3 +128,57 @@ Shout out to @H0L0 and @Tjmaxmillion
 2. give mp_titanweapon_triplethreat
 
 Special thanks to @Spoon for helping me make it
+*WeaponLaser;Strykus;https://github.com/Strykus/WeaponLaser;454614078;1;Weapon Laser
+
+Add a Weapon laser to almost all pilot weapons
+
+v1.0
+
+Not working on DoubleTake, Kraber, Wingman Elite
+
+Only Blue Color/NonToggleable
+
+Orange color and making it toggleble will be soon
+*Custom.Crosshairs;MysteriousRSA;https://github.com/MysteriousRSA/Custom.Crosshairs;447625188;0;This is a mod for Titanfall 2's Northstar Client that allows you to modify any weapons's crosshair.
+For instructions visit mods github page its very long and image based
+*TeamShuffle;Kala30;https://github.com/Kala30/TeamShuffle/releases;443299710;0;TeamShuffle
+Shuffle teams on game start.
+
+Thanks to @Coopyy for the PR
+*Northstar.MutatorPack;JMM889901;https://github.com/JMM889901/Northstar.MutatorPack/;453677707;0;The Peepeepoopoo mans Mutator pack
+A collection of mutators and settings to spice up your custom games
+
+Serverside only
+
+Clientside is only needed to enable/disable from private match interface, not needed to use.
+
+Features:
+Promotion: earn your loadouts by scoring kills, start off with a car and gain part of your loadout with each kill, but lose it on deaht.
+
+Switcharoo: on kill swap position, direction and velocity with whoever you killed.
+
+Chaos: every 30 seconds swap locations, direction, velocity and optionally gear with a random player, even those on your own team
+
+Twin grenades: replaces your tactical with a grenade, different tacticals give different grenades
+
+Twin Tacticals: replace your grenade with a tactical, different grenades give different tacticals
+
+Assimilation: steal loadouts on kill
+
+Acceleration: Increase speed on kill
+*Cranked;Coopyy;https://github.com/Coopyy/Cranked/;453546672;1;Cranked Gamemode Riff
+Mod Type: Server Only
+Works With Any Gamemode
+
+After your first kill you are cranked, you must kill another player to reset your cranked timer
+If your cranked timer hits 0, you explode
+get the last laugh by standing next to another player when you explode :squareflushed: 
+
+Options
+Cranked: Enable/Disable the mod without having to close server
+Cranked Countdown Timer: Time until you die or need to kill another player
+Cranked Added Kill Score: Adds x amount of points per kill while cranked (on top of normal game points)
+Cranked Time Death Penalty: Removes x amount of points when your timer hits 0
+Stim Player When Cranked: Pretty self explanatory, stimmed when cranked
+Fast ADS/Reload Cranked: Adds fast ADS, reload, and swap to all your weapons (unless you already have them)
+Use Explosion On Death: Will make your player explode when killed, able to kill other players with it
