@@ -1,8 +1,130 @@
-alFa-Northstar-mods;FrostySn0men;https://github.com/FrostySn0men/alFa-Northstar-mods;445589348;0
-The.Pilot;Bolexle;https://github.com/Bolexle/The.Pilot;446763132;0
-Admin-Abuse-Mod;x3Karma;https://github.com/x3Karma/Admin-Abuse-Mod/releases/tag/v1.2.2;443071924;0
-Spoons.Bubbles;ASpoonPlaysGames;https://github.com/ASpoonPlaysGames/Spoons.Bubbles;450326954;0
-DJMalachites-Scuffed-Weapons-Mod;DJMalachite;https://github.com/DJMalachite/DJMalachites-Scuffed-Weapons-Mod;441712990;0
-Northstar.Assimilation;JMM889901;https://github.com/JMM889901/Northstar.Assimilation/ ;448362612;0
-Jorb.TGrapple;Jorb333;https://github.com/Jorb333/Jorb.TGrapple/;448946180;0
-Jorb.TThreat;Jorb333;https://github.com/Jorb333/Jorb.TThreat/releases/tag/v1.0.0;449113612;0
+alFa-Northstar-mods;FrostySn0men;https://github.com/FrostySn0men/alFa-Northstar-mods;445589348;0;mods for R2Northstar used by alFa
+*The.Pilot;Bolexle;https://github.com/Bolexle/The.Pilot;446763132;0;The Pilot
+New Gamemode, heavily borrowed from the Hidden code and @H0L0's Grunt mode.
+1 player chosen as pilot
+    They are invisible except for high speed movement and melee.
+    They only have melee to kill with
+    They gain bonus health, that only regens up to a certain low value (same as normal pilot)
+    They have sonar and grapple
+The rest of the players become grunts
+    They cannot double jump or wallrun
+    They have an r201 and arc grenades
+    They can only find the Pilot when he briefly appears or by finding his hovered name plate
+The Pilot wins by killing all the grunts. The grunts win by surviving till the timeout or by killing the Pilot.
+*Admin-Abuse-Mod;x3Karma;https://github.com/x3Karma/Admin-Abuse-Mod/releases/tag/v1.2.2;443071924;0;Want to bully anyone who joins your server? Look no further with this mod! Now you can
+- slay someone/imc/militia/all
+- switchteam/st someone/imc/militia/all
+- respawn/rpwn <someone/imc/militia/all> [someone/spawn] [pilot/titan]
+- gift command from #deleted-channel gift <weaponId> <someone/imc/militia/all> <mods1> <mods2> <mods3> 
+- rearm someone/imc/militia/all to refill tacticals/abilities/cores
+- fly someone/imc/militia/all to toggle noclip
+- titanfall/tf <someone/imc/militia/all>
+-  teleport <someone/imc/militia/all> <someone/crosshair> teleport everybody to your crosshair,
+ teleport someone to another person, teleport everyone to you, 
+    teleport one team to your crosshair
+- removeweapon/rw someone/team/all to remove main weapons
+- freeze someone/team/all
+- unfreeze someone/team/all
+- hp/health someone/team/all to change max hp, 100 for base pilot, 2500 per bar for titans
+- announce someone/team/all <word1> <word2> <word3>
+- getteam someone
+- shuffleteam/shuffleteams check #deleted-channel instead for better one
+- v/vanish someone/IMC/militia/all
+- uv/unvanish someone/IMC/militia/all
+- bubbleshield/bs <someone/imc/militia/all> <duration> forms an impenetrable bubble shield.
+- unbubbleshield/unbs <someone/imc/militia/all> removes bubble shields.
+- sonar someone/imc/militia/all
+- prop someone/imc/militia/all <duration> <modelpath> 
+- unprop someone/imc/militia/all
+- getmod/gm/getmods <weaponID>
+- fgetmod/fgm/fgetmods <weaponID>
+
+so, yeah. enjoy your players malding probably
+*Spoons.Bubbles;ASpoonPlaysGames;https://github.com/ASpoonPlaysGames/Spoons.Bubbles;450326954;0;Allows users to have customisable dome shield colours!
+
+Server-side or Client-side?
+Spoons.Bubbles is a client-optional, server-sided mod.
+ Players who do not have the mod will see the custom colours,
+ but will not be able to set their own automatically, they would have to use AddCustomBubble (see below) to set their own colour
+
+Setting a colour
+There are 3 main ways of setting your custom dome shield colour, each with varying levels of permanence.
+
+Note: your custom colour will not work if the server does not have Spoons.Bubbles. (so pester them to add it >:) )
+
+Using autoexec_spoons_bubbles.cfg (recommended)
+You can use the .cfg file found at .../R2Northstar/mods/Spoons.Bubbles/mod/cfg/autoexec_spoons_bubbles.cfg
+ to set your dome shield colour on a permanent basis.
+
+Usage:
+Navigate to .../R2Northstar/mods/Spoons.Bubbles/mod/cfg and open the file autoexec_spoons_bubbles.cfg with a text editor (notepad, vscode, etc.)
+Make note of the commented text in the file
+
+Using SetCustomBubble
+Using SetCustomBubble is a quick and easy way to change your dome shield colour mid-match,
+however it will be reset when the match ends, or you leave the server.
+Basically any time that you see a loading screen, AddCustomBubble will have been reset
+
+Usage:
+SetCustomBubble <r> <g> <b>
+
+Example:
+"SetCustomBubble 255 0 255" will make a pink dome shield
+
+image
+
+Using SetCustomAnimBubble
+Using SetCustomAnimBubble does the same job as SetCustomBubble, but it supports animations
+
+Usage:
+SetCustomAnimBubble <r> <g> <b> <t>|<r> <g> <b> <t>|<r> <g> <b> <t> etc.
+*DJMalachites-Scuffed-Weapons-Mod;DJMalachite;https://github.com/DJMalachite/DJMalachites-Scuffed-Weapons-Mod;441712990;0;Northstar.Custom.DJMalachite
+DJMalachite's Stupidly scuffed weapons mod for Titanfall 2 + Northstar Client
+
+Features
+Adds 14 custom modded guns
+Custom gamemode (Scuffed) {WIP}
+Rotates pilot scuffed guns on spawn In private match settings under #MODE_SETTING_CATEGORY_SCUFFED enable scuffed weapon rotation
+Console commands
+give djmalachite_scuffed_kraber
+give djmalachite_scuffed_mastiff
+give djmalachite_scuffed_scorch_thermite scuffed
+give djmalachite_scuffed_tone_40mm devotion
+give djmalachite_scuffed_softball 
+give djmalachite_scuffed_salvo_core
+give djmalachite_scuffed_r97
+give djmalachite_scuffed_r97 Smart_core
+give djmalachite_scuffed_softball_BT7274_launcher
+give djmalachite_scuffed_evotion
+give djmalachite_scuffed_hemlock
+give djmalachite_scuffed_smr
+give djmalachite_scuffed_mozam
+give djmalachite_scuffed_wingman_elite
+give djmalachite_scuffed_softball_arc
+*Northstar.Assimilation;JMM889901;https://github.com/JMM889901/Northstar.Assimilation/;448362612;0;mod type: Server side gamemode modifier
+required by clients No
+Adds additional settings to the server such that on kill you will steal the weapons and abilities of whoever you killed
+
+Can disable weapon copying or offhand copying separately
+Titans cannot get pilot weapons because oh lord is it scuffed
+*Jorb.TGrapple;Jorb333;https://github.com/Jorb333/Jorb.TGrapple/;448946180;0;Titan Grapple Pull Mod
+- Weight based priority (Made with Scorch in mind)
+- R1 / RB / Q to activate
+- To spawn
+1. sv_cheats 1
+2. give mp_titanability_grapple
+- Pulls enemy titans and pilots towards you, automatically melees
+
+Not required on client on @BobTheBuilder version
+
+Shout out to @H0L0 and @Tjmaxmillion 
+*Jorb.TThreat;Jorb333;https://github.com/Jorb333/Jorb.TThreat/;449113612;0;
+- Leadwall (Ronin Primary) Model and Scope
+- Sticky grenades (softball) projectiles, 3 at a time in a (mostly) horizontal line
+- Damage has a max of 990 (330 x 3) per shot
+- 3 round mag
+- Spawn: 
+1. sv_cheats 1
+2. give mp_titanweapon_triplethreat
+
+Special thanks to @Spoon for helping me make it

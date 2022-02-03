@@ -181,7 +181,7 @@ namespace NorthStarModBrowser
             if (!System.IO.Directory.Exists(ProgramLocation)) System.IO.Directory.CreateDirectory(ProgramLocation);
 
 
-           // DownloadList();
+            DownloadList();
             createList();
             //make horizontal scrolbarr go away
             panel1.AutoScroll = false;
