@@ -182,3 +182,117 @@ Cranked Time Death Penalty: Removes x amount of points when your timer hits 0
 Stim Player When Cranked: Pretty self explanatory, stimmed when cranked
 Fast ADS/Reload Cranked: Adds fast ADS, reload, and swap to all your weapons (unless you already have them)
 Use Explosion On Death: Will make your player explode when killed, able to kill other players with it
+*Takyon.PlayerVote;ScureX;https://github.com/ScureX/Takyon.PlayerVote/;448923164;1;Enables players to vote on different things like skipping a map or kicking a player, to add a true community feeling to your server! Also includes admin functionalities to enforce some rules.
+*Northstar.PeePeesServerTools;JMM889901;https://github.com/JMM889901/Northstar.PeePeesServerTools;452370255;0;Northstar.PeePeesServerTools
+A collection of basic server tools
+
+Adds Autokick and Automatically changes map on startup if the map is currently lobby
+
+DO NOT USE WITH CLIENT, ONLY FOR DEDICATED SERVERS
+
+This mod only works on servers as the lobby skip can and will work on the multiplayer screen
+
+Var overrides:
+
+SkipLobby (0 or 1)
+
+ReplacementMap (Full name of a map such as mp_forwardbase_kodai)
+
+AutoKick (0 or 1) enables a 120 second afk autokick
+
+ReplacementMode
+*DeveloperMenu;zxcPandora;https://github.com/zxcPandora/DeveloperMenu;445482472;0;How to use:
+-Install mod
+-Type -dev +developer 1 into ns_startup_args.txt
+-Console type sv_cheats 1
+-Enter the match,Press ESC key to open in game menu(The first image show where it's )
+
+Update:
+Command fix:
+-Summon Players to player 0
+-Swap the teams
+-Toggle HUD
+Add:
+-weapon_cubemap(use give weapon_cubemap)
+May be work:
+-Toggle Friendly Highlights
+
+Note:
+-Some of the command still need fix.
+-Frontier Defense and Camping issue wait for Northstar update.
+*Brute4;Dinorush;https://github.com/Dinorush/Brute4;448443973;0;Required by Server and Client
+
+Implements the Brute4 titan based on cut content.
+*Northstar.Rotation;JMM889901;https://github.com/JMM889901/Northstar.Rotation;449726005;0;Mod for northstar client servers, all players rotate weapons ever 30 seconds
+*Wallrunning-Titans;taskinoz;https://github.com/taskinoz/Wallrunning-Titans;449110594;0;Titans can now wallrun. 
+
+Best used by setting dodge_vertical_enable 1 on the server or by using +dodge_vertical_enable 1 in the server launch options.
+*lmao.box;QuartzShard;https://github.com/QuartzShard/lmao.box;442902352;0;mao.box
+A Northstar Riff for a silly, server-side, smart pistol gamemode.
+
+All guns (primary, secondary, anti-titan) are removed, and you are given a smart pistol.
+Cloak is banned, it gets replaced by stim. You can run, but you can't hide!
+Getting a player kill fully restores the smart pistol's ammo reserve (you will still have to reload though).
+Everyone only has 1 HP, meaning any damage is fatal. Additionally, the smart pistol locks on to players as fast as it does grunts!
+Ordinance is replaced with pulse blade. Pulse blade pilots are given grapple.
+*Loadouts.KnifeFight;hummusbird;https://github.com/hummusbird/Loadouts.KnifeFight;448291045;1;everyone gets a kunai, gravstar and pulseblade
+*northstar-showdown;jerbmega;https://github.com/jerbmega/northstar-showdown/releases/tag/1.1.0;443852106;0;Based on the gamemode of the same name from Splitgate, Showdown is a permadeath,
+ team-based gamemode where every player is given the same randomly generated loadout,
+ including ordnances and tacticals, every round. Much like Gun Game tests player proficiency with weapons,
+ and their ability to adjust to different weapons on the fly, Showdown simultaneously tests the players' ability to identify,
+ utilize, and counter a new loadout.
+
+Showdown v1.1.0 has better localization compatibility for Northstar 1.4.0, a separate scoring system for individual pilots, and ensures pilots always have at least one pistol in the randomized loadout.
+*Restrictions.Elitist;Legonzaur;https://github.com/Legonzaur/Restrictions.Elitist ;445565699;1;Elitist Restrictions
+- Optionally removes melee
+- Optionally removes SMGS and Assault rifles
+- Optionally enhances anti-titan weapons (to use against pilots)
+- Optionally adds a gauge that fills when you go fast and empties when you don't, player dies or loses health when gauge is empty 
+- Optionally removes SmartPistol & Pilot turrets
+- Convars for configuration and UI.
+
+Basically removes fun depending on what you like to play
+*Speed-Is-Life;WishaWoshi;https://github.com/WishaWoshi/Speed-Is-Life/releases/tag/v1.3.0;444080429;0;Welcome to Speed Is Life, a mod for the Titanfall 2 Northstar Client.
+ Every 20 seconds, the slowest player is eliminated. Be the last one standing to win!
+ If you are the only player in the server, it will launch a dedicated singleplayer mode for that match.
+*Provoxin.RGB;Provoxin;https://github.com/Provoxin/Provoxin.RGB/releases ;445016104;0;RGB pilot and titan lights mod for Titanfall 2 Northstar
+
+Edit mod.json so you don't have to set params every time you launch!
+
+Only works with colorblind mode disabled.
+
+convars (press ~ to open the console and set these in real time):
+
+rgb_ally_color: sets the lights color of allied pilots and titans. takes r, g, b as a value from 0-1, and brightness. Example: rgb_ally_color 1 0 1 20 (bright magenta)  rgb_ally_color default will set light colors to default.
+
+rgb_enemy_color: sets the lights color of enemy pilots and titans. takes r, g, b as a value from 0-1, and brightness. Example: rgb_enemy_color 0.5 0 0 4 (dim dark red)  rgb_enemy_color default will set light colors to default.
+
+rgb_ally_rainbow: whether the lights of allied pilots and titans will cycle through colors. set to 1 to enable and 0 to disable.
+
+rgb_enemy_rainbow: whether the lights of enemy pilots and titans will cycle through colors. set to 1 to enable and 0 to disable.
+
+rgb_cycle_speed: how quickly colors are cycled through for players who have color cycling enabled. higher values will cycle faster.
+
+rgb_ally_brightness: sets the brightness of allied pilot and titan lights if rgb_ally_rainbow is 1.
+
+rgb_enemy_brightness: sets the brightness of enemy pilot and titan lights if rgb_enemy_rainbow is 1.
+*EdgeBoost;H0L0theBard;https://github.com/H0L0theBard/EdgeBoost;445108877;0;
+Server sided modt
+- A new movement mechanic which rapidly boosts a player if they slide over a step 
+- Really stupid idea which makes pilots even faster than ever before
+- Best used with high air acceleration
+*GruntMode;H0L0theBard;https://github.com/H0L0theBard/GruntMode;444672944;1;Mod Type: Server and Client Gamemode
+Required By Client: Yes
+
+Grunt Mode
+- TDM but you're now a grunt!
+- No jumpkits or wallrunning 
+- R201 and Grenades only
+*Teabag-Confirmed;x3Karma;https://github.com/x3Karma/Teabag-Confirmed/releases/tag/v1.0.1;444378351;0;Mod Type: Server and Client Gamemode
+Required By Client: Yes
+
+Teabag Confirmed
+- Kill enemy pilots to spawn a battery atop their corpse
+- Teabag their corpse to score a point
+- Teammates can teabag their team's corpse to deny a teabag confirmed.
+- Big thanks to @[UK] woshi and @Spitfire972 

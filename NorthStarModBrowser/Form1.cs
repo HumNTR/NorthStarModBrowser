@@ -350,6 +350,7 @@ namespace NorthStarModBrowser
                 string[] splits = s.Split(';');
                 Mods[count].Name = splits[0];
                 Mods[count].Owner = splits[1];
+                Console.WriteLine(splits[0] + " by " + splits[1]);
                 Mods[count].Link = splits[2];
                 Mods[count].ArrayId = count;
                 Mods[count].Id = long.Parse(splits[3]);
